@@ -23,8 +23,10 @@
 
 ### Setup Credentials
 
+> ⚠️ **Warning**: This action will modify your *~/.aws/credentials* file.
+
 ```bash
-sls config credentials --provider aws --key key --secret secret --profile profile
+sls config credentials --provider aws --key AWS_ACCESS_KEY_ID --secret AWS_ACCESS_SECRET_KEY --profile AWS_PROFILE_NAME
 ```
 
 ### Create config.yml
@@ -34,18 +36,21 @@ dev:
   DYNAMODB_LOCAL_PORT: 9200
   CRYPTO_SECRET_KEY: CRYPTO_SECRET_KEY
   JWT_SECRET: JWT_SECRET
-  PROFILE: PROFILE
+  PROFILE: AWS_PROFILE_NAME
 ```
 
-### Generate secret using Node.js Crypto
+#### Generate secret using Node.js Crypto
 
-```javascript
-require('crypto').randomBytes(20, (err, buffer) => {
-  if (!err) {
+```bash
+node -e "require('crypto').randomBytes(20, (err, buffer) => {
+  if (err) {
+    console.error(err);
+  } else {
     const token = buffer.toString('hex')
     console.log(token)
   }
-})
+})"
+
 ```
 
 ### Deploy
